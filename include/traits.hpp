@@ -7,7 +7,7 @@ namespace traits
 template <typename T>
 struct result
 {
-    using type = T;
+	using type = T;
 };
 // ==============================================
 // invoke result
@@ -44,7 +44,7 @@ struct resolve : resolve<decltype(&T::operator())>
 } // namespace invoke_result
 template <typename T>
 using invoke_result_t =
-    typename invoke_result::resolve<T>::type;
+	typename invoke_result::resolve<T>::type;
 
 // ==============================================
 // invoke signature
@@ -88,7 +88,7 @@ struct resolve : resolve<decltype(&T::operator())>
 
 template <typename T>
 using invoke_signature_t =
-    typename invoke_signature::resolve<T>::type;
+	typename invoke_signature::resolve<T>::type;
 
 // ==============================================
 // invoke signature r
@@ -108,6 +108,20 @@ struct resolve<T, R(A...)> : result<T(A...)>
 } // namespace invoke_signature_r
 template <typename R, typename T>
 using invoke_signature_r_t =
-    typename invoke_signature_r::resolve<R, T>::type;
+	typename invoke_signature_r::resolve<R, T>::type;
 
+// ==============================================
+// last
+// ==============================================
+namespace last
+{
+template <typename... Ts>
+struct resolve
+	: result<decltype((std::declval<Ts>(), ...))>
+{
+};
+} // namespace last
+template <typename... Ts>
+using last_t =
+	typename last::resolve<Ts...>::type;
 } // namespace traits
